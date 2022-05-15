@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+
+            function call_add_form()
+            {
+              window.location.href = '/add_book/';
+            }
+
+             function call_update_form(book_id)
+            {
+              window.location.href = '/edit_book/'+book_id;
+
+            }
+
+            function delete_book()
+              {
+               let isConfirmed = confirm("Are you sure you want to delete the book? \nThis action is irreversible.");
+               if (isConfirmed === false)
+                {
+                 window.location.reload();
+                }
+              }
+ </script>
+
+<h2>Books Table</h2>
+
+<input type="submit" name="add_book" onclick="call_add_form()" value="Add book"/>
+
+<table id="admin_goods_table" cellspacing="2" border="1" cellpadding="5">
+  <thead>
+  <th>ID</th>
+  <th>Name</th>
+  <th>Price</th>
+  <th>Author</th>
+  <th>Genre</th>
+  </thead>
+  <tr th:if="${all_books.empty}">
+    <td colspan="2"> No Books Available </td>
+  </tr>
+  <tr>
+    <tr th:each="book: ${all_books}" >
+    <td th:text="${book.getBookId()}"></td>
+    <td th:text="${book.getBookName()}"></td>
+    <td th:text="${book.getPrice()}"></td>
+    <td th:text="${book.getAuthor().getAuthorName()}"></td>
+    <td th:text="${book.getGenre().getGenreName()}"></td>
+
+  <td>
+  <td><input  type="submit" value="Edit"  th:onclick="call_update_form([[${book.getBookId()}]])" /></td>
+  </td>
+    <form method="post"  th:action="@{'/delete_book/'}+${book.getBookId()}">
+      <td><input name="book_id" type="hidden" th:value="${book.getBookId()}"/></td>
+      <td><input  type="submit" value="Delete" onclick="delete_book()"/>
+      </td>
+    </form>
+  </tr>
+  </tr>
+
+  </tr>
+</table>
+
+</body>
+</html>
+

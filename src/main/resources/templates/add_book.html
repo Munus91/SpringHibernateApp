@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add Book</title>
+</head>
+<body>
+
+
+<form id="add_new_good_form" th:method="post" th:action="@{'/add_book/'}" th:object="${book_for_add}">
+
+<div id="input_fields">
+            <h3>ADD BOOK: </h3>
+
+            <br/> <label >Book ID: </label><br/> <input type="text" name="book_id" th:field="*{bookId}" />
+            <br/><label >Book name: </label><br/><input type="text" name="book_name" th:field="*{bookName}"/>
+            <br/> <label >Price: </label><br/> <input name="book_price" type="number" step="0.01" th:field="*{price}"/>
+            <br/> <label >Author:</label><br/>
+          <select class="form-control" th:field="*{author.authorId}" >
+        <option value="0">select author</option>
+        <option th:each="author : ${all_authors}"
+                th:value="${author.authorId}"
+                th:text="${author.authorName}">
+        </option>
+    </select>
+    <br/> <label >Genre:</label><br/>
+    <select class="form-control" th:field="*{genre.genreId}" >
+        <option value="0">select genre</option>
+        <option th:each="genre : ${all_genres}"
+                th:value="${genre.genreId}"
+                th:text="${genre.genreName}">
+        </option>
+    </select>
+
+</div>
+
+
+    <div id="button_fields">
+        <input type="submit" value="Ok"/>
+        <input type="button" value="Cancel" onclick="window.location.href=history.back();"/>
+    </div>
+    </form>
+</body>
+</html>
+
